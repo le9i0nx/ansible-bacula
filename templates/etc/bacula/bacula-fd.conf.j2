@@ -1,0 +1,49 @@
+# This file is managed by Ansible, all changes will be lost
+{#
+#
+#    ==== Default server template for le9i0nx.bacula role ====
+#
+# List of parameters supported by this template:
+#
+#   - bacula_dir_name: ''
+#
+#
+#   - bacula_dir_passwd: ''
+#
+#
+#   - bacula_client_port: ''
+#
+#
+#   - bacula_client_ip: []
+#
+#
+#   - bacula_client_dir_name: ''
+#
+#
+#}
+
+
+Director {
+  Name = {{ bacula_dir_name }}
+  Password = "{{ bacula_dir_passwd }}"
+}
+
+FileDaemon {
+  Name = {{ bacula_client_name }}-fd
+  FDport = {{ bacula_client_port | default(9102) }}
+  WorkingDirectory = /var/lib/bacula
+  Pid Directory = /var/run/bacula
+  Maximum Concurrent Jobs = 20
+  Heartbeat Interval = 30
+{% if bacula_client_ip is defined bacula_client_ip %}
+  FDAddress = {% local in bacula_client_ip %} {{ local }}{% endfor %}
+{{ bacula_client_ip }}
+{% endif %}
+}
+
+Messages {
+  Name = Standard
+  director = {{ bacula_client_dir_name }} = all, !skipped, !restored
+}
+
+## vim: expandtab:foldmethod=marker:tabstop=2:shiftwidth=2:softtabstop=2

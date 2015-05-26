@@ -1,0 +1,10 @@
+
+- name: Install bacula client packages
+  apt:
+    name: '{{ item }}'
+    state: 'latest'
+    install_recommends: False
+  with_items: bacula_client_packages
+  when: (bacula_client_packages is defined and bacula_client_packages)
+
+## vim: expandtab:foldmethod=marker:tabstop=2:shiftwidth=2:softtabstop=2

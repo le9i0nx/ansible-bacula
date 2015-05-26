@@ -1,0 +1,8 @@
+
+- include: client.yml
+  when: bacula_client is defined and bacula_client == True
+
+- include: server.yml
+  when: bacula_server is defined and bacula_server == True
+
+## vim: expandtab:foldmethod=marker:tabstop=2:shiftwidth=2:softtabstop=2

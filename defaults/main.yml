@@ -1,0 +1,6 @@
+
+bacula_client_packages: ['bacula-fd']
+bacula_client: True
+bacula_server: False
+
+## vim: expandtab:foldmethod=marker:tabstop=2:shiftwidth=2:softtabstop=2
