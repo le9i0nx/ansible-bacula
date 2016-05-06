@@ -1,4 +1,27 @@
 ---
+
+- name: Check bacula-sd config
+  command: bacula-sd -t -c bacula-sd.conf
+  notify: bacula-sd restart
+
+- name: bacula-sd restart
+  service:
+    name:  bacula-sd
+    state: restarted
+
+- name: Check bacula-dir config
+  command: bacula-dir -t -c bacula-dir.conf
+  notify: bacula-dir restart
+
+- name: bacula-dir restart
+  service:
+    name:  bacula-dir
+    state: restarted
+
+- name: Check bacula-fd config
+  command: bacula-fd -t -c bacula-fd.conf
+  notify: bacula-fd restart
+
 - name: bacula-fd restart
   service:
     name:  bacula-fd
