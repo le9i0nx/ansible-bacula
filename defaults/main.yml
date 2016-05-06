@@ -13,14 +13,14 @@ bacula__conf_client:
   passwd: '{{ bacula__gen_client_password }}'
 # port: '9102'
 # listen:
-#   - { ip: "127.0.0.1" port: "9102" }
+#   - { ip: "127.0.0.1", port: "9102" }
 #   - { ip: "{{ ansible_tun0.ipv4.address }}" }
 
 # Password set on client, saved in secrets
-bacula__gen_client_password: '{{ lookup("password", secret + "/bacula/client/" + ansible_fqdn + "/password length=" + bacula__gen_password_length) }}'
-#
+bacula__gen_client_password: '{{ lookup("password", secret + "/bacula/client/" + ansible_fqdn + "/password chars=ascii_letters,hexdigits length=" + bacula__gen_password_length  ) }}'
+
 # # Length of the password
-bacula__gen_password_length: '32'
+bacula__gen_password_length: '57'
 
 # .. envvar:: bacula__ferm_dependent_rules
 #

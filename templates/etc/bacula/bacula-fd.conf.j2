@@ -15,16 +15,18 @@ FileDaemon {
   Pid Directory = /var/run/bacula
   Maximum Concurrent Jobs = 20
   Heartbeat Interval = 30
-{% if bacula__conf_client.listen is defined bacula__conf_client.listen %}
+{% if bacula__conf_client.listen is defined %}
   FDAddresses = {
-{% for local in bacula__conf_client.listen %} ip = { {{ local.ip }}; port = {{ local.port | default(9102) }} ; }{% endfor %}
+{% for local in bacula__conf_client.listen %}
+    ip = { addr = {{ local.ip }}; port = {{ local.port | default(9102) }}; }
+{% endfor %}
   }
 {% endif %}
 }
 
 Director {
   Name = {{ bacula__conf_dir.name }}-dir
-  Password = "{{ bacula__conf_client_passwd }}"
+  Password = "{{ bacula__conf_client.passwd }}"
 }
 
 Messages {
