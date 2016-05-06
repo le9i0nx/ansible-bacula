@@ -1,6 +1,37 @@
+---
 
-bacula_client_packages: ['bacula-fd']
-bacula_client: True
-bacula_server: False
+bacula__client: True
+bacula__server: False
 
-## vim: expandtab:foldmethod=marker:tabstop=2:shiftwidth=2:softtabstop=2
+bacula__conf_dir:
+  name: 'test'
+  ip:
+    - "127.0.0.1"
+
+bacula__conf_client:
+  name: '{{ ansible_fqdn }}'
+  passwd: '{{ bacula__gen_client_password }}'
+# port: '9102'
+# listen:
+#   - { ip: "127.0.0.1", port: "9102" }
+#   - { ip: "{{ ansible_tun0.ipv4.address }}" }
+
+# Password set on client, saved in secrets
+bacula__gen_client_password: '{{ lookup("password", secret + "/bacula/client/" + ansible_fqdn + "/password chars=ascii_letters,hexdigits length=" + bacula__gen_password_length  ) }}'
+
+# # Length of the password
+bacula__gen_password_length: '57'
+
+# .. envvar:: bacula__ferm_dependent_rules
+#
+# Configuration for ``iptables`` firewall managed by ``ferm``.
+bacula__ferm_dependent_rules:
+
+  - type: 'accept'
+    dport: [ 'bacula-fd' ]
+    protocol: [ 'tcp' ]
+    role: 'le9i0nx.bacula'
+    name: 'tcp'
+    saddr: '{{ bacula__conf_dir.ip }}'
+
+## vim: foldmethod=marker:tabstop=2:shiftwidth=2:softtabstop=2

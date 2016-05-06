@@ -1,10 +1,20 @@
+---
 
 - name: Install bacula client packages
   apt:
     name: '{{ item }}'
     state: 'latest'
     install_recommends: False
-  with_items: bacula_client_packages
-  when: (bacula_client_packages is defined and bacula_client_packages)
+  with_items:
+    - 'bacula-fd'
 
-## vim: expandtab:foldmethod=marker:tabstop=2:shiftwidth=2:softtabstop=2
+- name: Configure fd
+  template:
+    src: "etc/bacula/bacula-fd.conf.j2"
+    dest: '/etc/bacula/bacula-fd.conf'
+    owner: 'root'
+    group: 'root'
+    mode: '0440'
+  notify: [ 'bacula-fd restart' ]
+
+## vim: foldmethod=marker:tabstop=2:shiftwidth=2:softtabstop=2
