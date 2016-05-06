@@ -1,7 +1,8 @@
 ---
 
-bacula__client: True
-bacula__server: False
+bacula__fd: True
+bacula__dir: False
+bacula__sd: False
 
 bacula__conf_dir:
   name: 'test'
