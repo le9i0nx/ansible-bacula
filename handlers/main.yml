@@ -1,0 +1,7 @@
+---
+- name: bacula-fd restart
+  service:
+    name:  bacula-fd
+    state: restarted
+
+## vim: foldmethod=marker:tabstop=2:shiftwidth=2:softtabstop=2
