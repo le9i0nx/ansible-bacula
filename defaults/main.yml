@@ -26,7 +26,7 @@ bacula__gen_password_length: '57'
 # .. envvar:: bacula__ferm_dependent_rules
 #
 # Configuration for ``iptables`` firewall managed by ``ferm``.
-bacula__ferm_dependent_rules:
+bacula__ferm__dependent_rules:
 
   - type: 'accept'
     dport: [ 'bacula-fd' ]
@@ -34,5 +34,20 @@ bacula__ferm_dependent_rules:
     role: 'le9i0nx.bacula'
     name: 'tcp'
     saddr: '{{ bacula__conf_dir.ip }}'
+
+bacula__apt__repositories:
+
+  - {repo: 'deb http://archive.ubuntu.com/ubuntu trusty main restricted universe multiverse'}
+  - {repo: 'deb http://archive.ubuntu.com/ubuntu trusty-updates main restricted universe multiverse'}
+  - {repo: 'deb http://security.ubuntu.com/ubuntu trusty-security main restricted universe multiverse'}
+  - {repo: 'deb http://archive.ubuntu.com/ubuntu trusty-backports main restricted universe multiverse'}
+
+
+bacula__apt_preferences__dependent_list:
+
+  - package: 'bacula-*'
+    by_role: 'le9i0nx.bacula'
+    priority: '50'
+    pin: 'release xenial'
 
 ## vim: foldmethod=marker:tabstop=2:shiftwidth=2:softtabstop=2
