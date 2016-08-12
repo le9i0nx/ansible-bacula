@@ -1,0 +1,23 @@
+#{{ ansible_managed }}
+{#
+#
+#    ==== Default server template for le9i0nx.bacula role ====
+#
+# List of parameters supported by this template:
+#
+#
+#}
+
+# storage of {{ bacula__conf_client.name }} client configuration
+
+Device {
+  Name = storage_{{ bacula__conf_client.name | replace(".","_") }}
+  Archive Device = {{ bacula__conf_sd.device_path }}/{{ bacula__conf_client.name | replace(".","_") }}
+
+  Media Type = File
+  LabelMedia = yes;
+  Random Access = yes;
+  AutomaticMount = yes;
+  RemovableMedia = no;
+  AlwaysOpen = no;
+}

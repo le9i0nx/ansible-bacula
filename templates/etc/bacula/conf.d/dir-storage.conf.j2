@@ -1,0 +1,20 @@
+#{{ ansible_managed }}
+{#
+#
+#    ==== Default server template for le9i0nx.bacula role ====
+#
+# List of parameters supported by this template:
+#
+#
+#}
+
+# storage of {{ bacula__conf_client.name }} client configuration
+
+Storage {
+  Name = storage_{{ bacula__conf_client.name | replace(".","_") }}
+  Address = {{ bacula__conf_sd.ip }}
+  SDPort = 9103
+  Password = "{{ bacula__gen_sd_password }}"
+  Device = storage_{{ bacula__conf_client.name | replace(".","_") }}
+  Media Type = File
+}

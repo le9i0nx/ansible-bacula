@@ -1,0 +1,19 @@
+#{{ ansible_managed }}
+{#
+#
+#    ==== Default server template for le9i0nx.bacula role ====
+#
+# List of parameters supported by this template:
+#
+#
+#}
+
+# {{ bacula__conf_client.name }} client configuration
+
+Client {
+  Name = {{ bacula__conf_client.name | replace(".","_") }}-fd
+  Address = {{ ansible_default_ipv4.address }}
+  FDPort = 9102
+  Catalog = MyCatalog
+  Password = "{{ bacula__conf_client.passwd }}"
+}

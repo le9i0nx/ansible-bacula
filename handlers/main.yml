@@ -1,22 +1,27 @@
 ---
 
-- name: Check bacula-sd config
-  command: bacula-sd -t -c bacula-sd.conf
-  notify: bacula-sd restart
 
-- name: bacula-sd restart
+- name: Check fd -> dir config
+  command: bacula-dir -t -c bacula-dir.conf
+  delegate_to: '{{ bacula__conf_dir.name_ansible }}'
+  notify: Check fd -> dir config restart
+
+- name: Check fd -> dir config restart
+  service:
+    name:  bacula-director
+    state: restarted
+  delegate_to: '{{ bacula__conf_dir.name_ansible }}'
+
+- name: Check fd -> sd config
+  command: bacula-sd -t -c bacula-sd.conf
+  delegate_to: '{{ bacula__conf_sd.name_ansible }}'
+  notify: Check fd -> sd config restart
+
+- name: Check fd -> sd config restart
   service:
     name:  bacula-sd
     state: restarted
-
-- name: Check bacula-dir config
-  command: bacula-dir -t -c bacula-dir.conf
-  notify: bacula-dir restart
-
-- name: bacula-dir restart
-  service:
-    name:  bacula-dir
-    state: restarted
+  delegate_to: '{{ bacula__conf_sd.name_ansible }}'
 
 - name: Check bacula-fd config
   command: bacula-fd -t -c bacula-fd.conf

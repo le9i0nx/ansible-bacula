@@ -17,4 +17,87 @@
     mode: '0440'
   notify: [ 'Check bacula-fd config' ]
 
+- name: Configure fd -> dir-client
+  template:
+    src: "etc/bacula/conf.d/dir-client.conf.j2"
+    dest: '/etc/bacula/conf.d/dir-client-{{ bacula__conf_client.name | replace(".","_") }}.conf'
+    owner: 'root'
+    group: 'root'
+    mode: '0440'
+  delegate_to: '{{ bacula__conf_dir.name_ansible }}'
+  notify: [ 'Check fd -> dir config' ]
+
+- name: Configure fd -> dir-job
+  template:
+    src: "etc/bacula/conf.d/dir-job.conf.j2"
+    dest: '/etc/bacula/conf.d/dir-job-{{ bacula__conf_client.name | replace(".","_") }}-{{ item.name }}.conf'
+    owner: 'root'
+    group: 'root'
+    mode: '0440'
+  delegate_to: '{{ bacula__conf_dir.name_ansible }}'
+  notify: [ 'Check fd -> dir config' ]
+  when: bacula__conf_client_job|d()
+  with_items: '{{ bacula__conf_client_job }}'
+
+- name: Configure fd -> dir-storage
+  template:
+    src: "etc/bacula/conf.d/dir-storage.conf.j2"
+    dest: '/etc/bacula/conf.d/dir-storage-{{ bacula__conf_client.name | replace(".","_") }}.conf'
+    owner: 'root'
+    group: 'root'
+    mode: '0440'
+  delegate_to: '{{ bacula__conf_dir.name_ansible }}'
+  notify: [ 'Check fd -> dir config' ]
+  when: bacula__conf_client_job|d()
+
+- name: Create directories fd -> sd-device
+  file:
+    path:   '{{ item.path }}'
+    state:  '{{ item.state  | default("directory") }}'
+    owner:  '{{ item.owner  | default("root") }}'
+    group:  '{{ item.group  | default("root") }}'
+    mode:   '{{ item.mode   | default("0755") }}'
+  with_items:
+    - { path: '{{ bacula__conf_sd.device_path }}/{{ bacula__conf_client.name | replace(".","_") }}', owner: 'bacula' }
+  delegate_to: '{{ bacula__conf_sd.name_ansible }}'
+  when: bacula__conf_client_job|d()
+
+- name: Configure fd -> sd-device
+  template:
+    src: "etc/bacula/conf.d/sd-device.conf.j2"
+    dest: '/etc/bacula/conf.d/sd-device-{{ bacula__conf_client.name | replace(".","_") }}.conf'
+    owner: 'root'
+    group: 'root'
+    mode: '0440'
+  delegate_to: '{{ bacula__conf_sd.name_ansible }}'
+  notify: [ 'Check fd -> sd config' ]
+  when: bacula__conf_client_job|d()
+
+- name: Configure fd -> dir-pool
+  template:
+    src: "etc/bacula/conf.d/dir-pool.conf.j2"
+    dest: '/etc/bacula/conf.d/dir-pool-{{ bacula__conf_client.name | replace(".","_") }}-{{ item.name }}.conf'
+    owner: 'root'
+    group: 'root'
+    mode: '0440'
+  delegate_to: '{{ bacula__conf_dir.name_ansible }}'
+  notify: [ 'Check fd -> dir config' ]
+  when: bacula__conf_client_job|d()
+  with_items: '{{ bacula__conf_client_job }}'
+
+
+
+#- name: Configure fd -> sd
+#  template:
+#    src: "etc/bacula/cond.d/sd-device.conf.j2"
+#    dest: '/etc/bacula/conf.d/sd-device-{{  }}.conf'
+#    owner: 'root'
+#    group: 'root'
+#    mode: '0440'
+#  notify: [ 'Check fd -> sd config' ]
+
+
+
+
+
 ## vim: foldmethod=marker:tabstop=2:shiftwidth=2:softtabstop=2
