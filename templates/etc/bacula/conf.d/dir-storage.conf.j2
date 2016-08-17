@@ -12,7 +12,7 @@
 
 Storage {
   Name = storage_{{ bacula__conf_client.name | replace(".","_") }}
-  Address = {{ bacula__conf_sd.ip }}
+  Address = {{ bacula__conf_sd.ip.0 }}
   SDPort = 9103
   Password = "{{ bacula__gen_sd_password }}"
   Device = storage_{{ bacula__conf_client.name | replace(".","_") }}
