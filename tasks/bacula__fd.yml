@@ -85,19 +85,4 @@
   when: bacula__conf_client_job|d()
   with_items: '{{ bacula__conf_client_job }}'
 
-
-
-#- name: Configure fd -> sd
-#  template:
-#    src: "etc/bacula/cond.d/sd-device.conf.j2"
-#    dest: '/etc/bacula/conf.d/sd-device-{{  }}.conf'
-#    owner: 'root'
-#    group: 'root'
-#    mode: '0440'
-#  notify: [ 'Check fd -> sd config' ]
-
-
-
-
-
 ## vim: foldmethod=marker:tabstop=2:shiftwidth=2:softtabstop=2
