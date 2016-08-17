@@ -1,0 +1,21 @@
+#{{ ansible_managed }}
+{#
+#
+#    ==== Default server template for le9i0nx.bacula role ====
+#
+# List of parameters supported by this template:
+#
+#
+#}
+
+# {{ item.name }} job of {{ bacula__conf_client.name }} client configuration 
+
+Job {
+  Name = {{ bacula__conf_client.name | replace(".","_") }}-{{ item.name }}
+  JobDefs = {{ item.JobDefs }}
+  Client = {{ bacula__conf_client.name | replace(".","_") }}-fd
+  Storage = storage_{{ bacula__conf_client.name | replace(".","_") }}
+
+  Schedule = {{ item.Schedule }}
+  Pool = {{ bacula__conf_client.name | replace(".","_") }}-{{ item.name }}
+}

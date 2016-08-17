@@ -1,0 +1,23 @@
+#{{ ansible_managed }}
+{#
+#
+#    ==== Default server template for le9i0nx.bacula role ====
+#
+# List of parameters supported by this template:
+#
+#
+#}
+
+# {{ bacula__conf_client.name }}-{{item.name}} poll of client configuration 
+
+Pool {
+  Name = {{ bacula__conf_client.name | replace(".","_") }}-{{ item.name }}
+  LabelFormat = "${Year}-${Month:p/2/0/r}-${Day:p/2/0/r}-${Hour:p/2/0/r}:${Minute:p/2/0/r}-${Job}-${Level}"
+  Volume Retention = 2 months
+  Maximum Volumes = 70
+  Maximum Volume Jobs = 1
+  Pool Type = Backup
+  AutoPrune = yes
+  Recycle = no
+  Use Volume Once = yes
+}

@@ -6,6 +6,14 @@ bacula__sd: False
 
 bacula__conf_dir:
   name: 'test'
+  name_ansible: "dir_name_ansible"
+  ip:
+    - "127.0.0.1"
+
+bacula__conf_sd:
+  name: 'test_sd'
+  name_ansible: "sd_name_ansible"
+  device_path: "/mnt/storage/"
   ip:
     - "127.0.0.1"
 
@@ -17,8 +25,16 @@ bacula__conf_client:
 #   - { ip: "127.0.0.1", port: "9102" }
 #   - { ip: "{{ ansible_tun0.ipv4.address }}" }
 
+#bacula__conf_client_job:
+#
+#  - { name:"etc", JobDefs:"GateBackup", Schedule:"Daily_0" }
+
+
+
 # Password set on client, saved in secrets
 bacula__gen_client_password: '{{ lookup("password", secret + "/bacula/client/" + ansible_fqdn + "/password chars=ascii_letters,hexdigits length=" + bacula__gen_password_length  ) }}'
+
+bacula__gen_sd_password: '{{ lookup("password", secret + "/bacula/sd/" + bacula__conf_sd.name_ansible + "/password chars=ascii_letters,hexdigits length=" + bacula__gen_password_length  ) }}'
 
 # # Length of the password
 bacula__gen_password_length: '57'
@@ -33,7 +49,7 @@ bacula__ferm__dependent_rules:
     protocol: [ 'tcp' ]
     role: 'le9i0nx.bacula'
     name: 'tcp'
-    saddr: '{{ bacula__conf_dir.ip }}'
+    saddr: '{{ bacula__conf_dir.ip + bacula__conf_sd.ip }}'
 
 bacula__apt__repositories:
 
@@ -41,7 +57,6 @@ bacula__apt__repositories:
   - {repo: 'deb http://archive.ubuntu.com/ubuntu trusty-updates main restricted universe multiverse'}
   - {repo: 'deb http://security.ubuntu.com/ubuntu trusty-security main restricted universe multiverse'}
   - {repo: 'deb http://archive.ubuntu.com/ubuntu trusty-backports main restricted universe multiverse'}
-
 
 bacula__apt_preferences__dependent_list:
 
