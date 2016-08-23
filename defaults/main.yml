@@ -53,10 +53,10 @@ bacula__ferm__dependent_rules:
 
 bacula__apt__repositories:
 
-  - {repo: 'deb http://archive.ubuntu.com/ubuntu trusty main restricted universe multiverse'}
-  - {repo: 'deb http://archive.ubuntu.com/ubuntu trusty-updates main restricted universe multiverse'}
-  - {repo: 'deb http://security.ubuntu.com/ubuntu trusty-security main restricted universe multiverse'}
-  - {repo: 'deb http://archive.ubuntu.com/ubuntu trusty-backports main restricted universe multiverse'}
+  - {repo: 'deb http://archive.ubuntu.com/ubuntu trusty main restricted universe multiverse', mode: "0444" }
+  - {repo: 'deb http://archive.ubuntu.com/ubuntu trusty-updates main restricted universe multiverse', mode: "0444" }
+  - {repo: 'deb http://security.ubuntu.com/ubuntu trusty-security main restricted universe multiverse', mode: "0444" }
+  - {repo: 'deb http://archive.ubuntu.com/ubuntu trusty-backports main restricted universe multiverse', mode: "0444" }
 
 bacula__apt_preferences__dependent_list:
 
