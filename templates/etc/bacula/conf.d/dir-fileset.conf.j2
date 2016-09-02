@@ -1,0 +1,24 @@
+#{{ ansible_managed }}
+{#
+#
+#    ==== Default server template for le9i0nx.bacula role ====
+#
+# List of parameters supported by this template:
+#
+#
+#}
+
+# {{ item.name }} FileSet of configuration
+
+FileSet {
+  Name = "{{ item.name }}"
+  Include {
+    Options {
+      signature = MD5
+      Compression = GZIP
+    }
+{% for x in item.File %}
+    File = {{ x }}
+{% endfor %}
+  }
+}

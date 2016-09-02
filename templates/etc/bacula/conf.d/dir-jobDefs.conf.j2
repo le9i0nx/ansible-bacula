@@ -1,0 +1,24 @@
+#{{ ansible_managed }}
+{#
+#
+#    ==== Default server template for le9i0nx.bacula role ====
+#
+# List of parameters supported by this template:
+#
+#
+#}
+
+# {{ item.name }} jobDef of configuration
+
+JobDefs {
+  Name = "{{ item.name }}"
+  Type = Backup
+  Schedule = "{{ item.Schedule }}"
+  Storage = hdbS
+  Messages = Standard
+  Priority = 10
+  Write Bootstrap = "/var/lib/bacula/%c.bsr"
+  Pool = PDC
+  Max Start Delay = 10 hours
+  FileSet="{{ item.FileSet }}"
+}
