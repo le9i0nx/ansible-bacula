@@ -20,14 +20,29 @@ bacula__conf_sd:
 bacula__conf_client:
   name: '{{ ansible_fqdn }}'
   passwd: '{{ bacula__gen_client_password }}'
+  ip: "{{ ansible_default_ipv4.address }}"
 # port: '9102'
 # listen:
 #   - { ip: "127.0.0.1", port: "9102" }
 #   - { ip: "{{ ansible_tun0.ipv4.address }}" }
 
-#bacula__conf_client_job:
+bacula__conf_client_job:
+  - '{{ bacula__conf_client_job_default if bacula__conf_client_job_default|d() else [] }}'
+  - '{{ bacula__conf_client_job_group if bacula__conf_client_job_group|d() else [] }}'
+  - '{{ bacula__conf_client_job_host if bacula__conf_client_job_host|d() else [] }}'
 #
-#  - { name:"etc", JobDefs:"GateBackup", Schedule:"Daily_0" }
+#  - { name: "etc", JobDefs: "GateBackup", Schedule: "Daily_0" }
+#
+bacula__conf_client_jobDefs:
+  - '{{ bacula__conf_client_jobDefs_default if bacula__conf_client_jobDefs_default|d() else [] }}'
+  - '{{ bacula__conf_client_jobDefs_group if bacula__conf_client_jobDefs_group|d() else [] }}'
+  - '{{ bacula__conf_client_jobDefs_host if bacula__conf_client_jobDefs_host|d() else [] }}'
+#  - { name: "etcDefs", Schedule: "Daily_0", FileSet: "etc-set"  }
+bacula__conf_client_FileSet:
+  - '{{ bacula__conf_client_FileSet_default if bacula__conf_client_FileSet_default|d() else [] }}'
+  - '{{ bacula__conf_client_FileSet_group if bacula__conf_client_FileSet_group|d() else [] }}'
+  - '{{ bacula__conf_client_FileSet_host if bacula__conf_client_FileSet_host|d() else [] }}'
+#  - { name: "etc-set", File: [ "/etc" ] }
 
 
 

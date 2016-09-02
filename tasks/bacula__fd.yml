@@ -13,7 +13,7 @@
     src: "etc/bacula/bacula-fd.conf.j2"
     dest: '/etc/bacula/bacula-fd.conf'
     owner: 'root'
-    group: 'root'
+    group: 'bacula'
     mode: '0440'
   notify: [ 'Check bacula-fd config' ]
 
@@ -22,7 +22,7 @@
     src: "etc/bacula/conf.d/dir-client.conf.j2"
     dest: '/etc/bacula/conf.d/dir-client-{{ bacula__conf_client.name | replace(".","_") }}.conf'
     owner: 'root'
-    group: 'root'
+    group: 'bacula'
     mode: '0440'
   delegate_to: '{{ bacula__conf_dir.name_ansible }}'
   notify: [ 'Check fd -> dir config' ]
@@ -32,19 +32,43 @@
     src: "etc/bacula/conf.d/dir-job.conf.j2"
     dest: '/etc/bacula/conf.d/dir-job-{{ bacula__conf_client.name | replace(".","_") }}-{{ item.name }}.conf'
     owner: 'root'
-    group: 'root'
+    group: 'bacula'
     mode: '0440'
   delegate_to: '{{ bacula__conf_dir.name_ansible }}'
   notify: [ 'Check fd -> dir config' ]
   when: bacula__conf_client_job|d()
   with_items: '{{ bacula__conf_client_job }}'
 
+- name: Configure fd -> dir-jobDefs
+  template:
+    src: "etc/bacula/conf.d/dir-jobDefs.conf.j2"
+    dest: '/etc/bacula/conf.d/dir-jobDefs-{{ item.name }}.conf'
+    owner: 'root'
+    group: 'bacula'
+    mode: '0440'
+  delegate_to: '{{ bacula__conf_dir.name_ansible }}'
+  notify: [ 'Check fd -> dir config' ]
+  when: bacula__conf_client_jobDefs|d()
+  with_items: '{{ bacula__conf_client_jobDefs }}'
+
+- name: Configure fd -> dir-FileSet
+  template:
+    src: "etc/bacula/conf.d/dir-fileset.conf.j2"
+    dest: '/etc/bacula/conf.d/dir-fileset-{{ item.name }}.conf'
+    owner: 'root'
+    group: 'bacula'
+    mode: '0440'
+  delegate_to: '{{ bacula__conf_dir.name_ansible }}'
+  notify: [ 'Check fd -> dir config' ]
+  when: bacula__conf_client_FileSet|d()
+  with_items: '{{ bacula__conf_client_FileSet }}'
+
 - name: Configure fd -> dir-storage
   template:
     src: "etc/bacula/conf.d/dir-storage.conf.j2"
     dest: '/etc/bacula/conf.d/dir-storage-{{ bacula__conf_client.name | replace(".","_") }}.conf'
     owner: 'root'
-    group: 'root'
+    group: 'bacula'
     mode: '0440'
   delegate_to: '{{ bacula__conf_dir.name_ansible }}'
   notify: [ 'Check fd -> dir config' ]
@@ -67,7 +91,7 @@
     src: "etc/bacula/conf.d/sd-device.conf.j2"
     dest: '/etc/bacula/conf.d/sd-device-{{ bacula__conf_client.name | replace(".","_") }}.conf'
     owner: 'root'
-    group: 'root'
+    group: 'bacula'
     mode: '0440'
   delegate_to: '{{ bacula__conf_sd.name_ansible }}'
   notify: [ 'Check fd -> sd config' ]
@@ -78,7 +102,7 @@
     src: "etc/bacula/conf.d/dir-pool.conf.j2"
     dest: '/etc/bacula/conf.d/dir-pool-{{ bacula__conf_client.name | replace(".","_") }}-{{ item.name }}.conf'
     owner: 'root'
-    group: 'root'
+    group: 'bacula'
     mode: '0440'
   delegate_to: '{{ bacula__conf_dir.name_ansible }}'
   notify: [ 'Check fd -> dir config' ]
