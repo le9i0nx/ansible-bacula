@@ -1,7 +1,7 @@
 ---
 
 - name: Install bacula client packages
-  apt:
+  package:
     name: '{{ item }}'
     state: 'latest'
     install_recommends: False

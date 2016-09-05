@@ -15,8 +15,8 @@ FileDaemon {
   Pid Directory = /var/run/bacula
   Maximum Concurrent Jobs = 20
   Heartbeat Interval = 30
-{% if bacula__conf_client.ip is defined %}
-  FDAddress = {{ bacula__conf_client.ip }}
+{% if bacula__conf_client_ip|d() %}
+  FDAddress = {{ bacula__conf_client_ip }}
 {% endif %}
 }
 

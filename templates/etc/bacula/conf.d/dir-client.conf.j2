@@ -12,7 +12,7 @@
 
 Client {
   Name = {{ bacula__conf_client.name | replace(".","_") }}-fd
-  Address = {{ bacula__conf_client.ip }}
+  Address = {{ bacula__conf_client_ip }}
   FDPort = 9102
   Catalog = MyCatalog
   Password = "{{ bacula__conf_client.passwd }}"
