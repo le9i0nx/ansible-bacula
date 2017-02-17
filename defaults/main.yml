@@ -64,6 +64,13 @@ bacula__ferm__dependent_rules:
     name: 'tcp'
     saddr: '{{ bacula__conf_dir.ip + bacula__conf_sd.ip }}'
 
+  - type: 'accept'
+    dport: [ 'bacula-fd' ]
+    protocol: [ 'udp' ]
+    role: 'le9i0nx.bacula'
+    name: 'udp'
+    saddr: '{{ bacula__conf_dir.ip + bacula__conf_sd.ip }}'
+
 bacula__apt__repositories:
 
   - {repo: 'deb http://archive.ubuntu.com/ubuntu trusty main restricted universe multiverse', mode: "0444" }
